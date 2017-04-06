@@ -1,0 +1,45 @@
+<header>
+  <div class="center">
+    <h1>SportTable</h1>
+  </div>
+  <login-buttons></login-buttons>
+</header>
+  <button ng-if="$ctrl.currentUser" ng-click="$ctrl.create()">Create league</button>
+  <button ng-if="$ctrl.currentUser" ng-click="$ctrl.join()">Join league</button>
+  <div class="center" ng-if="$ctrl.currentUser">
+    <form ng-if="$ctrl.viewCreate">
+    League Name:<br>
+    <input ng-model="$ctrl.leagueName" type="text"><br>
+    Sport:<br>
+    <input ng-model="$ctrl.sport" type="text"><br>
+    Player's emails:<br>
+    <div>
+    </form>
+    <form ng-if="$ctrl.viewCreate" ng-submit="$ctrl.addEmail()">
+       <input type="text" placeholder="email" ng-model="$ctrl.email"><button>Add Player</button>
+    </form>
+    <ul class="email-list" ng-if="$ctrl.viewCreate">
+     <li ng-repeat="email in $ctrl.emails">
+       {{email}}
+     </li>
+   </ul>
+   <button ng-if="$ctrl.viewCreate" ng-click="$ctrl.createLeague()">CREATE</button>
+ </div>
+ <div class="center">
+  <form ng-if="$ctrl.viewJoin">
+    Please enter the league code:<br>
+    <input ng-model="$ctrl.leagueCode" type="text"><br>
+    <button class="button">JOIN</button>
+  </form>
+</div>
+</div>
+<div class="center">
+<ul ng-if="$ctrl.created">
+  <li ng-repeat="player in $ctrl.players">
+    {{player}}
+  </li>
+</ul>
+</div>
+<div class="center">
+      SportTable allows you to create a leaderboard for you and your friends and challenge one another.
+</div>
