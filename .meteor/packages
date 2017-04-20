@@ -21,3 +21,5 @@ accounts-password
 dotansimha:accounts-ui-angular
 twbs:bootstrap
 session
+flawless:meteor-toastr
+underscore
