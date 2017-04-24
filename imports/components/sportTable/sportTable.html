@@ -8,7 +8,7 @@
   <button class="button" ng-if="$ctrl.currentUser" ng-click="$ctrl.join()">Join league</button>
   <button class="button" ng-if="$ctrl.currentUser" ng-click="$ctrl.viewLeagues()">View Leagues</button>
   <div class="center" ng-if="$ctrl.currentUser">
-    <form ng-if="$ctrl.viewCreate">
+    <form ng-if="$ctrl.view.name == 'CREATE'">
     League Name:<br>
     <input ng-model="$ctrl.leagueName" type="text"><br>
     Sport:<br>
@@ -16,18 +16,18 @@
     Player's emails:<br>
     <div>
     </form>
-    <form ng-if="$ctrl.viewCreate" ng-submit="$ctrl.addEmail()">
+    <form ng-if="$ctrl.view.name == 'CREATE'" ng-submit="$ctrl.addEmail()">
        <input type="text" placeholder="email" ng-model="$ctrl.email"><button>Add Player</button>
     </form>
-    <ul class="email-list" ng-if="$ctrl.viewCreate">
+    <ul class="email-list" ng-if="$ctrl.view.name == 'CREATE'">
      <li ng-repeat="email in $ctrl.emails">
        {{email}}
      </li>
    </ul>
-   <button ng-if="$ctrl.viewCreate" ng-click="$ctrl.createLeague()">CREATE</button>
+   <button ng-if="$ctrl.view.name == 'CREATE'" ng-click="$ctrl.createLeague()">CREATE</button>
  </div>
  <div class="center">
-  <form ng-if="$ctrl.viewJoin">
+  <form ng-if="$ctrl.view.name == 'JOIN'">
     Please enter the league code:<br>
     <input ng-model="$ctrl.leagueCode" type="text"><br>
     <button class="button" ng-click="$ctrl.joinLeague()">JOIN</button>
@@ -35,17 +35,11 @@
 </div>
 </div>
 <div class="center">
-<ul ng-if="$ctrl.created">
-  <li ng-repeat="player in $ctrl.players">
-    {{ player }}
-  </li>
-</ul>
 </div>
-<div>
-  {{$ctrl.leagues}}
+<div ng-if="$ctrl.view.name == 'LEAGUES'">
   <ul>
     <li ng-repeat="league in $ctrl.leagues">
-      {{ league }}
+      {{ league.name }}
     </li>
   </ul>
 </div>

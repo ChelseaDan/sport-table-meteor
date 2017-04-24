@@ -1,24 +1,29 @@
 import angular from 'angular';
 import angularMeteor from 'angular-meteor';
 import { Meteor } from 'meteor/meteor';
+import { Mongo } from 'meteor/mongo';
 import { League } from '../../api/league.js';
 import template from './sportTable.html';
 import toastr from 'toastr';
 
 export class SportTableCtrl {
-  constructor($scope) {
-    const League = new Mongo.Collection('personalLeagues');
+
+  constructor($scope, $meteor) {
+    this.viewEnum = {CREATE : {name: "CREATE"}, JOIN : {name: "JOIN"}, LEAGUES : {name: "LEAGUES"}, NONE : {name: "NONE"}};
+    this.view = this.viewEnum.NONE;
     Tracker.autorun(() => {
       Meteor.subscribe('league.all');
     });
-    this.viewCreate = false;
-    this.viewJoin = false;
     $scope.viewModel(this);
     this.helpers({
         currentUser() {
           return Meteor.user();
+        },
+        leagues() {
+          console.log(League.find({}).fetch());
+          return League.find({});
         }
-    })
+    });
   }
 
   addEmail() {
@@ -29,16 +34,14 @@ export class SportTableCtrl {
   }
 
   create() {
-    this.viewCreate = true;
-    this.viewJoin = false;
+    this.view = this.viewEnum.CREATE;
     this.emails = [];
     this.leagueName = "";
     this.sport = "";
   }
 
   join() {
-    this.viewCreate = false;
-    this.viewJoin = true;
+    this.view = this.viewEnum.JOIN;
   }
 
   joinLeague() {
@@ -47,7 +50,7 @@ export class SportTableCtrl {
         toastr.error(err.error);
       } else {
         toastr.success("You've been added to the league");
-        this.viewJoin = false;
+        this.view = this.viewEnum.NONE;
         this.leagueCode = "";
       }
     });
@@ -56,13 +59,12 @@ export class SportTableCtrl {
   createLeague() {
   this.addEmail();
     if (this.emails.length > 0 && this.leagueName != "" && this.sport != "") {
-      this.viewCreate = false;
-      this.viewJoin = false;
+      this.view = this.viewEnum.NONE;
       Meteor.call('league.insert', this.emails, this.leagueName, this.sport, function(err, result) {
         if (err) {
           toastr.error(err);
         } else {
-          toastr.success("Your league code is " + result);
+          toastr.success("League created successfully.");
           this.created = true;
           this.players = this.emails;
         }
@@ -71,17 +73,7 @@ export class SportTableCtrl {
   }
 
   viewLeagues() {
-    this.viewJoin = false;
-    this.viewCreate = false;
-    this.viewAllLeagues = true;
-    Meteor.call('league.findAll', function(err, result) {
-      if (err) {
-        toastr.error(err);
-      } else {
-        const leagues = League.find({}).fetch();
-        console.log(leagues);
-      }
-    });
+    this.view = this.viewEnum.LEAGUES;
   }
 }
 
@@ -89,5 +81,5 @@ export default angular.module('sportTable', [
   angularMeteor
 ]).component('sportTable', {
   templateUrl: 'imports/components/sportTable/sportTable.html',
-  controller: ['$scope', SportTableCtrl]
+  controller: ['$scope', '$meteor', SportTableCtrl]
 });
