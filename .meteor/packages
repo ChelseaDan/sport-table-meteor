@@ -23,3 +23,5 @@ twbs:bootstrap
 session
 flawless:meteor-toastr
 underscore
+yogiben:pretty-email
+email

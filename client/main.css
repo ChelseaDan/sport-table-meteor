@@ -10,10 +10,9 @@ body {
     bottom: 0;
     left: 0;
     right: 0;
-
     padding: 0;
     margin: 0;
-
+    height: 100%;
     font-size: 14px;
 }
 
@@ -22,7 +21,7 @@ body {
 }
 
 .container {
-    max-width: 600px;
+    max-width: 800px;
     margin: 0 auto;
     min-height: 100%;
     background: white;
@@ -38,6 +37,29 @@ body {
   margin: 20px;
 }
 
+.footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  background-color: #efefef;
+  text-align: center;
+}
+
+.list-group-item {
+  word-wrap: break-word;
+}
+
+.list-group {
+  height: auto;
+  max-height: 700px;
+  overflow: auto;
+}
+
+.col-md-4 {
+  overflow: auto;
+}
 
 #login-buttons {
     display: block;

@@ -4,45 +4,72 @@
   </div>
   <login-buttons></login-buttons>
 </header>
-  <button class="button" ng-if="$ctrl.currentUser" ng-click="$ctrl.create()">Create league</button>
-  <button class="button" ng-if="$ctrl.currentUser" ng-click="$ctrl.join()">Join league</button>
-  <button class="button" ng-if="$ctrl.currentUser" ng-click="$ctrl.viewLeagues()">View Leagues</button>
+<div class="center">
+  <button class="btn btn-primary"  ng-if="$ctrl.currentUser" ng-click="$ctrl.create()">Create league</button>
+  <button class="btn btn-primary"  ng-if="$ctrl.currentUser" ng-click="$ctrl.join()">Join league</button>
+  <button class="btn btn-primary"  ng-if="$ctrl.currentUser" ng-click="$ctrl.viewLeagues()">View Leagues</button>
+</div>
   <div class="center" ng-if="$ctrl.currentUser">
     <form ng-if="$ctrl.view.name == 'CREATE'">
     League Name:<br>
-    <input ng-model="$ctrl.leagueName" type="text"><br>
+    <input class="form-control" ng-model="$ctrl.leagueName" type="text"><br>
     Sport:<br>
-    <input ng-model="$ctrl.sport" type="text"><br>
+    <input class="form-control" ng-model="$ctrl.sport" type="text"><br>
     Player's emails:<br>
     <div>
     </form>
     <form ng-if="$ctrl.view.name == 'CREATE'" ng-submit="$ctrl.addEmail()">
-       <input type="text" placeholder="email" ng-model="$ctrl.email"><button>Add Player</button>
+      <div class="input-group">
+       <input class="form-control" type="text" placeholder="email" ng-model="$ctrl.email">
+       <span class="input-group-btn">
+         <button class="btn btn-primary">Add Player</button>
+       </span>
+     </div>
     </form>
     <ul class="email-list" ng-if="$ctrl.view.name == 'CREATE'">
      <li ng-repeat="email in $ctrl.emails">
        {{email}}
      </li>
    </ul>
-   <button ng-if="$ctrl.view.name == 'CREATE'" ng-click="$ctrl.createLeague()">CREATE</button>
+   <button class="btn btn-primary" ng-if="$ctrl.view.name == 'CREATE'" ng-click="$ctrl.createLeague()">CREATE</button>
  </div>
  <div class="center">
   <form ng-if="$ctrl.view.name == 'JOIN'">
     Please enter the league code:<br>
-    <input ng-model="$ctrl.leagueCode" type="text"><br>
-    <button class="button" ng-click="$ctrl.joinLeague()">JOIN</button>
+    <input class="form-control" ng-model="$ctrl.leagueCode" type="text"><br>
+    <button class="btn btn-primary" ng-click="$ctrl.joinLeague()">JOIN</button>
   </form>
 </div>
-</div>
-<div class="center">
-</div>
-<div ng-if="$ctrl.view.name == 'LEAGUES'">
-  <ul>
-    <li ng-repeat="league in $ctrl.leagues">
+<div>
+<div class="col-md-4" ng-if="$ctrl.view.name == 'LEAGUES'">
+  <ul class="list-group">
+    <li class="list-group-item" ng-repeat="league in $ctrl.leagues" ng-click="$ctrl.viewLeague(league)">
       {{ league.name }}
     </li>
   </ul>
 </div>
-<div class="center">
+<div class="col-md-8" ng-if="$ctrl.view.name == 'LEAGUES'">
+      <div class="center">
+      Name: {{ $ctrl.selectedLeague.name }} <br>
+      LeagueID (Share with your friends): {{ $ctrl.selectedLeague._id  }}
+      </div>
+      <table class="table table-striped table-bordered table-hover">
+        <thead>
+          <tr>
+            <th class="text-center">Position</th>
+            <th class="text-center">Email</th>
+            <th class="text-center">Challenge</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="player in $ctrl.selectedLeague.players">
+            <td class="text-center">{{ $index + 1 }}</td>
+            <td class="text-center">{{ player }}</td>
+            <td class="text-center"><span class="glyphicon glyphicon-envelope" ng-click="$ctrl.challenge(player)"></span></td>
+          </tr>
+        </tbody>
+</div>
+</div>
+<div class="footer">
       SportTable allows you to create a leaderboard for you and your friends and challenge one another.
 </div>

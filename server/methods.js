@@ -60,5 +60,6 @@ Meteor.methods({
         names.push({id: leaguesMember[i]._id, name: leaguesMember[i].name});
       }
       return names;
-    }
+    },
+    'sendEmail' (to, from)
 });

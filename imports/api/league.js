@@ -4,5 +4,6 @@ export const League = new Mongo.Collection('league');
 
 League.publicFields = {
   _id: 1,
-  name: 1
+  name: 1,
+  players: 1
 };

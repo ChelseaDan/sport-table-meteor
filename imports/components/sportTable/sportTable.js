@@ -3,6 +3,7 @@ import angularMeteor from 'angular-meteor';
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { League } from '../../api/league.js';
+import { Email } from 'meteor/email';
 import template from './sportTable.html';
 import toastr from 'toastr';
 
@@ -20,7 +21,8 @@ export class SportTableCtrl {
           return Meteor.user();
         },
         leagues() {
-          console.log(League.find({}).fetch());
+          /*Need to only find your leagues*/
+          this.leagues = League.find({}).fetch();
           return League.find({});
         }
     });
@@ -30,6 +32,8 @@ export class SportTableCtrl {
     if (this.email.indexOf('@') > -1) {
       this.emails.push(this.email);
       this.email = "";
+    } else {
+      toastr.error("Emails must contain a '@'");
     }
   }
 
@@ -74,6 +78,19 @@ export class SportTableCtrl {
 
   viewLeagues() {
     this.view = this.viewEnum.LEAGUES;
+  }
+
+  viewLeague(league) {
+    for (var i = 0; i < this.leagues.length; i++) {
+      if (league._id == this.leagues[i]._id) {
+        this.selectedLeague = this.leagues[i];
+        break;
+      }
+    }
+  }
+
+  challenge(player) {
+    console.log("challenging " + player);
   }
 }
 
